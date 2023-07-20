@@ -2,7 +2,7 @@ package com.mariomeira.banco.modelos;
 
 import java.util.Objects;
 
-public class Conta {
+public abstract class Conta {
 
     private Pessoa pessoa;
     private int agencia;
@@ -18,7 +18,9 @@ public class Conta {
         this.saldo = 0;
     }
 
-    public void depositar(int valor) {
+    public abstract void debitarTarifaMensal();
+
+    public void depositar(double valor) {
         if (valor <= 0) {
             throw new IllegalArgumentException("Valor de depósito deve ser maior que zero.");
         }
@@ -27,7 +29,7 @@ public class Conta {
     }
 
     public void sacar(int valor) {
-        if (saldo - valor < 0) {
+        if (getSaldoDisponivel() - valor < 0) {
             throw new IllegalStateException("Saldo insuficiente.");
         }
 
@@ -48,6 +50,10 @@ public class Conta {
 
     public int getSaldo() {
         return saldo;
+    }
+
+    public int getSaldoDisponivel() {
+        return getSaldo();
     }
 
 }

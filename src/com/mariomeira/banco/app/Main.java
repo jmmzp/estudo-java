@@ -1,24 +1,30 @@
 package com.mariomeira.banco.app;
 
-import com.mariomeira.banco.modelos.Conta;
-import com.mariomeira.banco.modelos.Pessoa;
+import com.mariomeira.banco.modelos.*;
+import com.mariomeira.banco.modelos.pagamento.Boleto;
+import com.mariomeira.banco.modelos.pagamento.DocumentoPagavel;
 
 public class Main {
     public static void main(String[] args) {
         Pessoa titular1 = new Pessoa("Jose Mario", "09876543210");
-        Conta minhaConta = new Conta(titular1, 123, 7765);
+        Pessoa titular2 = new Pessoa("Maria Jose", "09876543220");
 
-        System.out.println("Nome: " + minhaConta.getPessoa().getNome());
-        System.out.println("Agencia: " + minhaConta.getAgencia());
-        System.out.println("Numero: " + minhaConta.getNumero());
-        System.out.println("Saldo: " + minhaConta.getSaldo());
+        ContaInvestimento minhaConta = new ContaInvestimento(titular1, 123, 7765);
+        ContaEspecial suaConta = new ContaEspecial(titular2, 123, 7765, 1_000);
 
-        minhaConta.depositar(1_000_000);
-        System.out.println("Saldo apos deposito: " + minhaConta.getSaldo() / 100);
+        CaixaEletronico caixa = new CaixaEletronico();
 
-        minhaConta.sacar(100_000);
-        System.out.println("Saldo apos saque: " + minhaConta.getSaldo() / 100);
+        Boleto boletoInternet = new Boleto(suaConta, 1_000);
 
+        minhaConta.depositar(20_000_000);
+        caixa.imprimirExtrato(suaConta);
+        System.out.println();
+
+        caixa.pagarBoleto(boletoInternet, minhaConta);
+        caixa.imprimirExtrato(minhaConta);
+        System.out.println();
+
+        caixa.imprimirExtrato(suaConta);
 
     }
 }
